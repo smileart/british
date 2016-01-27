@@ -1,12 +1,20 @@
 British
 ========
 
-A tiny module which is supposed to help Brits to use Ruby with more comfort.
+[![Build Status](https://travis-ci.org/smileart/british.svg?branch=master)](https://travis-ci.org/smileart/british)
+[![Inline docs](http://inch-ci.org/github/smileart/british.svg?branch=master)](http://inch-ci.org/github/smileart/british)
 
+A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
 **WARNING**: This gem was created just for the purpose of an experiment. Use it in your production code at your own risk.
 
 ![](http://i.giphy.com/z7U5xe75XDzVe.gif "Who cares…")
+
+##Installation
+
+```bash
+gem install british
+```
 
 ##Examples
 
@@ -56,6 +64,10 @@ include British
 'oi_ya_bloody_wanker'.camelise # => "OiYaBloodyWanker"
 ```
 
+##Docs
+
+[RubyDoc.info](http://www.rubydoc.info/gems/british/0.1.0/British "RubyDoc")
+
 ##Development
 ```bash
 yard --plugin tomdoc      # generate documentation
@@ -72,8 +84,9 @@ open coverage/index.html  # open coverage report in a browser
 inch                      # run inches documentation analysis
 ```
 
+[Semantic Commit](http://seesparkbox.com/foundry/semantic_commit_messages "Semantic Commit")
+
 ##References
 
 * [American and British English spelling differences](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)
-
 * [Oxford Dictionaries -ize, -ise, or -yse?](https://youtu.be/-bWSYBUaeYM)
