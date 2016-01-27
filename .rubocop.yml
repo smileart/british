@@ -1,0 +1,3 @@
+# Use only ascii symbols in comments
+Style/AsciiComments:
+  Enabled: false
