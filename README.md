@@ -1,7 +1,7 @@
 British
 ========
 
-![TravisCI](https://travis-ci.org/smileart/british.svg?branch=master)
+[![Build Status](https://travis-ci.org/smileart/british.svg?branch=master)](https://travis-ci.org/smileart/british)
 [![Inline docs](http://inch-ci.org/github/smileart/british.svg?branch=master)](http://inch-ci.org/github/smileart/british)
 
 A tiny module which is supposed to help Brits to use Ruby with more comfort.
