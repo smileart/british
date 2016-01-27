@@ -9,11 +9,11 @@ group :dev do
   gem 'simplecov', '>= 0'
   gem 'gitignore'
   gem 'rubocop'
-  gem 'reek'
   gem 'inch'
 end
 
 group :test do
+  gem 'reek'
   gem 'rake'
   gem 'minitest'
   gem 'minitest-reporters'
