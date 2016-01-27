@@ -108,12 +108,18 @@ describe 'British module' do
   end
 
   it 'must affect all the objects when included globally' do
-    String.include British
+    class String
+      include British
+    end
+
     'test'.capitalise.must_equal 'Test'
   end
 
   it 'must affect host 3rd party object when included' do
-    Object.include British
+    class Object
+      include British
+    end
+
     'test'.capitalise.must_equal 'Test'
   end
 
