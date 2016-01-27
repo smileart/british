@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'letters'
 require_relative 'helper'
 require 'minitest/autorun'
 require_relative '../lib/british'
