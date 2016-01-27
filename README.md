@@ -1,8 +1,10 @@
 British
 ========
 
-A tiny module which is supposed to help Brits to use Ruby with more comfort.
+![TravisCI](https://travis-ci.org/smileart/british.svg?branch=master)
+[![Inline docs](http://inch-ci.org/github/smileart/british.svg?branch=master)](http://inch-ci.org/github/smileart/british)
 
+A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
 **WARNING**: This gem was created just for the purpose of an experiment. Use it in your production code at your own risk.
 
