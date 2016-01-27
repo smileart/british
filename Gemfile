@@ -6,7 +6,6 @@ group :dev do
   gem 'letters'
   gem 'yard'
   gem 'rdoc'
-  gem 'simplecov', '>= 0'
   gem 'gitignore'
   gem 'rubocop'
   gem 'inch'
@@ -17,4 +16,5 @@ group :test do
   gem 'rake'
   gem 'minitest'
   gem 'minitest-reporters'
+  gem 'simplecov', '>= 0'
 end
