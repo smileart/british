@@ -82,6 +82,8 @@ open coverage/index.html  # open coverage report in a browser
 inch                      # run inches documentation analysis
 ```
 
+[Semantic Commit](http://seesparkbox.com/foundry/semantic_commit_messages "Semantic Commit")
+
 ##References
 
 * [American and British English spelling differences](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)
