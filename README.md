@@ -8,6 +8,12 @@ A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
 ![](http://i.giphy.com/z7U5xe75XDzVe.gif "Who cares…")
 
+##Installation
+
+```bash
+gem install british
+```
+
 ##Examples
 
 ```ruby
@@ -56,6 +62,10 @@ include British
 'oi_ya_bloody_wanker'.camelise # => "OiYaBloodyWanker"
 ```
 
+##Docs
+
+[RubyDoc.info](http://www.rubydoc.info/gems/british/0.1.0/British "RubyDoc")
+
 ##Development
 ```bash
 yard --plugin tomdoc      # generate documentation
@@ -75,5 +85,4 @@ inch                      # run inches documentation analysis
 ##References
 
 * [American and British English spelling differences](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)
-
 * [Oxford Dictionaries -ize, -ise, or -yse?](https://youtu.be/-bWSYBUaeYM)
