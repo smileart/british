@@ -9,15 +9,15 @@ A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
 **WARNING**: This gem was created just for the purpose of an experiment. Use it in your production code at your own risk.
 
-![](/assets/british.gif "WHY?!")
+![](/assets/img/british.gif "WHY?!")
 
 ##Why
 
-[![](/assets/screen_1.png)](http://stackoverflow.com/a/17968545 "Screen 1")
+[![](/assets/img/screen_1.png)](http://stackoverflow.com/a/17968545 "Screen 1")
 
-[![](/assets/screen_2.png)](http://stackoverflow.com/a/27485116 "Screen 2")
+[![](/assets/img/screen_2.png)](http://stackoverflow.com/a/27485116 "Screen 2")
 
-[![](/assets/screen_3.png)](http://blog.codinghorror.com/the-ugly-american-programmer/ "The Ugly American Programmer")
+[![](/assets/img/screen_3.png)](http://blog.codinghorror.com/the-ugly-american-programmer/ "The Ugly American Programmer")
 
 
 
