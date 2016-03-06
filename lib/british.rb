@@ -62,7 +62,10 @@ module British
     'isation' => 'ization',
     'yse'     => 'yze',
     'ogue'    => 'og'
-  }
+  }.freeze
+
+  # Public: Regexp pattern to search/replace British words endings
+  BRITISH_ENDING_PATTERN = /#{Regexp.union(ENDINGS.keys)}(?=_|-|\?|\!|=|$)/
 
   # Public: Submodule to be included in your own classes to use `initialise`
   #
@@ -94,46 +97,74 @@ module British
   # Public: British alias of native is_a? method
   # Returns the original method's result
   def is_an?(*args)
-    is_a?(*args) if self.respond_to?(:is_a?)
+    is_a?(*args) if respond_to?(:is_a?)
   end
 
   # Public: additional alias for is_an?/is_a? method
-  alias_method :an?, :is_an?
+  alias an? is_an?
 
-  # Public: Magic method which tries to translate British methods to American
-  # methods before throwing NoMethodError if neither method was found.
-  #
-  #   name - original method name
-  #   *args - original method args
-  #
-  # Example
-  #
-  #   # with any British object
-  #   british_object.colour    # will be translated into color
-  #   british_object.magnetise # will be translated into magnetize
-  #
-  #   # all method endings age allowed
-  #   british_object.surprize!
-  #   british_object.surprize?
-  #   british_object.surprize=
-  #
-  #   # complex names are supported
-  #   british_object.initialise_something # initialize_something will be called
-  #
-  # Returns the original method's result
-  # Raises NoMethodError if the method cannot be found.
-  def method_missing(name, *args)
-    name = name.to_s
+  def self.included(host_class)
+    host_class.extend ClassMethods
+    host_class.overwrite_method_missing
 
-    ENDINGS.each_pair do |bre_e, ame_e|
-      next unless name.include?(bre_e)
-
-      british_ending_pattern = /#{bre_e}(?=_|-|$|\?|\!|=)/
-      americanised_name = name.gsub(british_ending_pattern, ame_e)
-
-      return send(americanised_name, *args) if respond_to?(americanised_name)
+    host_class.instance_eval do
+      def method_added(name)
+        return if name != :method_missing
+        overwrite_method_missing
+      end
     end
+  end
 
-    fail NoMethodError, "undefined method `#{name}' for #{self}"
+  # Public: ClassMethods to extend in self.included
+  # Defines an?, is_an?, method_missing
+  module ClassMethods
+
+    # Public: method to overwrite original method_missing with magic one:
+    # this method_missing tries to translate British methods to American
+    # ones before throwing NoMethodError if neither method was found.
+    #
+    #   name - original method name
+    #   *args - original method args
+    #
+    # Example
+    #
+    #   # with any British object
+    #   british_object.colour    # will be translated into color
+    #   british_object.magnetise # will be translated into magnetize
+    #
+    #   # all method endings age allowed
+    #   british_object.surprize!
+    #   british_object.surprize?
+    #   british_object.surprize=
+    #
+    #   # complex names are supported
+    #   british_object.initialise_something # initialize_something will be called
+    #
+    # Returns the original method's result
+    # Calls original method_missing (if British didn't hook anything)
+    # Raises NoMethodError if the method cannot be found
+    def overwrite_method_missing
+      class_eval do
+        unless method_defined?(:british_method_missing)
+          define_method(:british_method_missing) do |name, *args|
+            # do British magic
+            americanised_name = name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
+            return send(americanised_name, *args) if respond_to?(americanised_name)
+
+            # call original method_missing (avoid double original method calls)
+            return original_method_missing(name, *args) if caller[0] !~ /method_missing/ && defined?(:original_method_missing)
+
+            # call original parent's method_missing
+            method = self.class.superclass.instance_method(:original_method_missing)
+            return method.bind(self).call(name, *args) if method
+          end
+        end
+
+        if instance_method(:method_missing) != instance_method(:british_method_missing)
+          alias_method :original_method_missing, :method_missing
+          alias_method :method_missing, :british_method_missing
+        end
+      end
+    end
   end
 end

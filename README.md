@@ -5,11 +5,24 @@ British
 [![Inline docs](http://inch-ci.org/github/smileart/british.svg?branch=master)](http://inch-ci.org/github/smileart/british)
 [![Gem Version](https://badge.fury.io/rb/british.svg)](https://badge.fury.io/rb/british)
 
+[![forthebadge](http://forthebadge.com/images/badges/built-with-ruby.svg)](http://forthebadge.com)
+
 A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
 **WARNING**: This gem was created just for the purpose of an experiment. Use it in your production code at your own risk.
 
-![](http://i.giphy.com/z7U5xe75XDzVe.gif "Who cares…")
+![](/assets/img/british.gif "WHY?!")
+
+##Why
+
+[<img src="/assets/img/screen_1.png" alt="screen_1" width="400px;">](http://stackoverflow.com/a/17968545 "Screen 1")
+
+[<img src="/assets/img/screen_2.png" alt="screen_2" width="400px;">](http://stackoverflow.com/a/27485116 "Screen 2")
+
+[<img src="/assets/img/screen_3.png" alt="screen_3" width="400px;">](http://stackoverflow.com/a/7320593 "Screen 3")
+
+[<img src="/assets/img/screen_4.png" alt="screen_4" width="400px;">](http://blog.codinghorror.com/the-ugly-american-programmer/ "The Ugly American Programmer")
+
 
 ##Installation
 
