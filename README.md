@@ -12,7 +12,6 @@ A tiny module which is supposed to help Brits to use Ruby with more comfort.
 **WARNING**: This gem was created just for the purpose of an experiment. Use it in your production code at your own risk.
 
 ![](/assets/img/british.gif "WHY?!")
-![](/assets/img/british.gif "WHY?!" =250x)
 
 ##Why
 
