@@ -4,66 +4,8 @@ require_relative 'helper'
 require 'minitest/autorun'
 require_relative '../lib/british'
 
-class BritishObject
-  include British
-  include British::Initialisable
-
-  attr_reader :test
-  attr_reader :color
-  attr_reader :surprize
-
-  def initialise(test)
-    @test = test
-    @color = 'red'
-  end
-
-  def initialize_something(test)
-    test
-  end
-
-  def magnetize(test)
-    test
-  end
-
-  def surprize!
-    'Surprise!'
-  end
-
-  def surprize?
-    'Surprise?'
-  end
-
-  def surprize=(test)
-    @surprize = test
-  end
-end
-
-class UberBlackBox
-  attr_reader :z
-
-  def initialize(z)
-    @z = z
-  end
-end
-
-class BlackBox < UberBlackBox
-  attr_reader :a
-
-  def initialize(a)
-    super('Alice & Bob')
-    @a = a
-  end
-end
-
-class MyClass < BlackBox
-  include British::Initialisable
-  attr_reader :b
-
-  def initialise(b)
-    @b = b
-    super('bar')
-  end
-end
+require_relative './fixtures/classes.rb'
+require_relative './fixtures/magic.rb'
 
 describe 'British module' do
   it '#new must call initialize (initialise)' do
@@ -107,6 +49,7 @@ describe 'British module' do
   end
 
   it 'must affect all the objects when included globally' do
+    # Extending standard String
     class String
       include British
     end
@@ -115,6 +58,7 @@ describe 'British module' do
   end
 
   it 'must affect host 3rd party object when included' do
+    # Extending standard object
     class Object
       include British
     end
@@ -127,5 +71,38 @@ describe 'British module' do
     my.a.must_equal 'bar'
     my.b.must_equal 'foo'
     my.z.must_equal 'Alice & Bob'
+  end
+
+  it 'mustn\'t be broken by other\'s magic' do
+    magic      = MagicClass.new
+    real_magic = RealMagicClass.new
+    witchcraft = InheritedWitchcraft.new
+
+    magic.rabbit_colour.must_equal 'white'
+    magic.perform.must_equal 'A rabbit from a top hat!'
+
+    real_magic.rabbit_colour.must_equal 'white'
+    real_magic.perform.must_equal 'Abracadabra! A rabbit from a top hat!'
+
+    witchcraft.rabbit_colour.must_equal 'white'
+    witchcraft.cat_colour.must_equal 'black'
+    witchcraft.perform.must_equal 'Oo ee oo ah ah ting tang walla walla bing bang!'
+  end
+
+  it 'must throw NoMethodError on unknown methods' do
+    -> { BigBadGrayWolf.new.colour }.must_raise NoMethodError
+  end
+
+  it 'must correctly show nil in NoMethodError messages' do
+    begin
+      NilClass.include British
+      nil.nonsense
+    rescue NoMethodError => e
+      if RUBY_VERSION == '2.0.0'
+	      e.message.must_equal 'private method `include\' called for NilClass:Class'
+      else
+        e.message.must_equal 'undefined method `nonsense\' for nil:NilClass'
+	    end
+    end
   end
 end
