@@ -94,13 +94,8 @@ module British
     end
   end
 
-  # Public: British alias of native is_a? method
-  # Returns the original method's result
-  def is_an?(*args)
-    is_a?(*args) if respond_to?(:is_a?)
-  end
-
-  # Public: additional alias for is_an?/is_a? method
+  # Public: aliases for is_an?/is_a? methods
+  alias is_an? is_a?
   alias an? is_an?
 
   def self.included(host_class)
