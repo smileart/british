@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'british'
-  s.version     = '0.2.1'
+  s.version     = '0.2.2'
   s.licenses    = ['MIT']
   s.summary     = 'A tiny module that is supposed to help Brits to use Ruby with more comfort'
   s.description = 'Allows to use alternative words endings: -ise instead of -ize etc. Defines `is_an?` as an alias of the is_a? method. Provides module to use `initialise` in your classes.'

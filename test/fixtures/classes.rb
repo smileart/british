@@ -71,7 +71,7 @@ class MyClass < BlackBox
 end
 
 # Bad guy — BigBadGrayWolf
-# — just want to be British but have not any methods
+# — just want to be British but have no any methods
 # — must throw NoMethodError exceptions with nice native messages (even with nil)
 class BigBadGrayWolf
   include British

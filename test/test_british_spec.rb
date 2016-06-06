@@ -99,10 +99,10 @@ describe 'British module' do
       nil.nonsense
     rescue NoMethodError => e
       if RUBY_VERSION == '2.0.0'
-	      e.message.must_equal 'private method `include\' called for NilClass:Class'
+        e.message.must_equal 'private method `include\' called for NilClass:Class'
       else
         e.message.must_equal 'undefined method `nonsense\' for nil:NilClass'
-	    end
+      end
     end
   end
 end
