@@ -9,6 +9,7 @@ group :dev do
   gem 'gitignore'
   gem 'rubocop'
   gem 'inch'
+  gem 'byebug'
 end
 
 group :test do

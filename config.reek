@@ -1,2 +1,4 @@
 TooManyStatements:
   max_statements: 7
+ControlParameter:
+  exclude: ['method_added', 'singleton_method_added']
