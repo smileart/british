@@ -12,7 +12,7 @@ class MagicHat
 end
 
 # MagicClass:
-# — has american method (must be callable by British magic)
+# — has American method (must be callable by British magic)
 # — inherits method_missing from MagicHat (must call it when method is missing)
 class MagicClass < MagicHat
   include British
@@ -23,7 +23,7 @@ class MagicClass < MagicHat
 end
 
 # RealMagicClass:
-# — has inherited american method (must be callable by British magic)
+# — has inherited American method (must be callable by British magic)
 # — has its own method_missing (must call it on method_missing when not British)
 # — uses `super`, must call method_missing through MagicClass from MagicHat
 class RealMagicClass < MagicClass
@@ -41,11 +41,20 @@ class Witchcraft < MagicClass
 end
 
 # InheritedWitchcraft
-# — has inherited american method (must be callable by British magic)
-# — has its own american method (must be callable by British magic inherited from MagicClass)
+# — has inherited American method (must be callable by British magic)
+# — has its own American method (must be callable by British magic inherited from MagicClass)
 # — has inherited method_missing from Witchcraft which overwrites parents' method_missing
 class InheritedWitchcraft < Witchcraft
   def cat_color
     'black'
+  end
+end
+
+# Muggle:
+# — has inherited method_missing from MagicHat
+# — uses `super`, must call method_missing from MagicHat
+class Muggle < MagicHat
+  def method_missing(name, *args)
+    'Voilà! ' + super(name, *args)
   end
 end
