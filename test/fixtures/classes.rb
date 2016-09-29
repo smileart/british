@@ -1,16 +1,51 @@
 # Fully BritishObject:
-# — american methods/attributes could be called with British magic
+# — British methods/attributes could be called with American magic
 # — has is_an? method to use with classes beginning with vowel
 # — initialise could be used instead if initialize
 class BritishObject
-  include British
   include British::Initialisable
+
+  attr_reader :test
+  attr_reader :colour
+  attr_reader :surprise
+
+  def initialise(test)
+    @test = test
+    @colour = 'red'
+  end
+
+  def initialise_something(test)
+    test
+  end
+
+  def magnetize(test)
+    test
+  end
+
+  def surprise!
+    'Surprize!'
+  end
+
+  def surprise?
+    'Surprize?'
+  end
+
+  def surprise=(test)
+    @surprise = test
+  end
+end
+
+# Fully AmericanObject:
+# — American methods/attributes could be called with British magic
+# — has is_an? method to use with classes beginning with vowel
+class AmericanObject
+  include British
 
   attr_reader :test
   attr_reader :color
   attr_reader :surprize
 
-  def initialise(test)
+  def initialize(test)
     @test = test
     @color = 'red'
   end
@@ -24,11 +59,11 @@ class BritishObject
   end
 
   def surprize!
-    'Surprise!'
+    'Surprize!'
   end
 
   def surprize?
-    'Surprise?'
+    'Surprize?'
   end
 
   def surprize=(test)
@@ -112,4 +147,22 @@ end
 # — must throw NoMethodError exceptions with nice native messages (even with nil)
 class BigBadGrayWolf
   include British
+end
+
+# A Hash with a chic default
+# — descends from Ruby Hash
+# — uses British bells and whistles
+# — doesn't break parents native behaviour
+class PoshHash < Hash
+  include British::Initialisable
+
+  DEFAULT = '(╭ರ_⊙)'
+
+  def initialise
+    super(DEFAULT)
+  end
+
+  def colour
+    'crimson'
+  end
 end
