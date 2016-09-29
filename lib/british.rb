@@ -1,53 +1,68 @@
 # encoding: utf-8
 
-# Public: method_missing which tries to call "British" version before failing
-# Could be included to the particular class or globally (monkey-patching Object)
+# Public: method_missing which tries to call "British"/"American" version before failing
+# Could be included/extended to/by the particular class or globally (monkey-patching Object)
 #
 # Examples
 #
-#   # Create classes with `initialise` constructor (British::Initialisable)
-#   # And magic British methods and attributes (British)
-#   class BritishObject
+#     Create classes with `initialise` constructor
+#     And your own British methods and attributes
 #     require 'british'
 #
-#     # use within your objects only *1 …
+#     class BritishObject < BlackBoxObject
+#       # use British::Initialisable within your classes only *1 …
+#       include British::Initialisable
+#
+#       attr_reader :colour
+#
+#       # works exactly like an initialize (including `super` usage)
+#       def initialise(test)
+#         @test = test
+#         @colour = 'red'
+#
+#         super('black', 'box', 'arguments')
+#       end
+#
+#       def magnetise(test)
+#         @test
+#       end
+#     end
+#
+#     british_object = BritishObject.new('Hello UK!')
+#     british_object.test # => 'Hello UK!'
+#
+#     # Use American or British endings with any method or attribute
+#     british_object.color     # => "red"
+#     british_object.colour    # => "red"
+#
+#     british_object.magnetize # => "Hello UK!"
+#     british_object.magnetise # => "Hello UK!"
+#
+#     # *1 … patch third party or all the system Objects
+#     # (wouldn't really recommend to do the last one)
+#     String.include(British)
+#     'cheers!'.capitalise # => "Cheers!"
+#
+#     require 'active_support/inflector'
 #     include British
-#     include British::Initialisable
 #
-#     attr_reader :color
+#     'cheers!'.capitalise # => "Cheers!"
+#     'oi_ya_bloody_wanker'.camelise # => "OiYaBloodyWanker"
 #
-#     # works exactly like an initialize (including `super` usage)
-#     def initialise(test)
-#       @test = test
-#       @color = 'red'
+#     # Extend an object instance to make it British
+#     not_british = SomeClass.new # with #color method
+#     refugee = SomeClass.new # with #color method
 #
-#       super('black', 'box', 'arguments')
-#     end
+#     # Make it British
+#     british = refugee.extend(British)
 #
-#     def magnetize(test)
-#       @test
-#     end
-#   end
+#     not_british.colour # undefined method `colour'
+#     british.colour # works well
 #
-#   british_object = BritishObject.new('Hello UK!')
-#   british_object.test # => 'Hello UK!'
+#     # Use is_an?/an? with classes like an Array!
+#     [].is_an? Array # => true
+#     [].an? Array    # => true
 #
-#   # Use British endings with any method or attribute
-#   british_object.colour    # => "red"
-#   british_object.magnetise # => "Hello UK!"
-#
-#   # *1 … patch third party or all the system Objects
-#   String.include British
-#   'cheers!'.capitalise # => "Cheers!"
-#
-#   require 'active_support/inflector'
-#   include British
-#
-#   # Use is_an? with classes like an Array!
-#   [].is_an? Array # => true
-#
-#   'cheers!'.capitalise # => "Cheers!"
-#   'oi_ya_bloody_wanker'.camelise # => "OiYaBloodyWanker"
 module British
   # Public: Hash of British ↔ American words endings
   ENDINGS = {
@@ -65,18 +80,24 @@ module British
   }.freeze
 
   # Public: Regexp pattern to search/replace British words endings
-  BRITISH_ENDING_PATTERN = /#{Regexp.union(ENDINGS.keys)}(?=_|-|\?|\!|=|$)/
+  BRITISH_ENDING_PATTERN  = /#{Regexp.union(ENDINGS.keys)}(?=_|-|\?|\!|=|$)/
+
+  # Public: Regexp pattern to search/replace American words endings
+  AMERICAN_ENDING_PATTERN = /#{Regexp.union(ENDINGS.values)}(?=_|-|\?|\!|=|$)/
 
   # Public: Submodule to be included in your own classes to use `initialise`
+  # and allow American methods to be called from outside
   #
-  # As far as `initialize` called automatically by a `new` method there is no
-  # sense to use it for third party classes.
+  # Warning: as far as `initialize` called automatically by a `new` method there
+  # is no sense to use it for third party classes. Use `include British` instead.
   #
   module Initialisable
-    # Public: On module being included do:
+    # Public: On British::Initialisable module being included do:
     #   1. Check if it's a global include
     #   2. Add and alias of the parent's `initialize` (for `super` calls)
     #   3. Create your own initialize method (to be auto-called by the `new`)
+    #   4. Patch a class with British magic `method_missing`
+    #   5. Add aliases for `is_a?`
     #
     # Warning
     #   By including this module you redefine your initialiZe method.
@@ -107,14 +128,20 @@ module British
 
         $VERBOSE = verbose
       end
+
+      host_class.extend ClassMethods
+      host_class.class_overwrite_method_missing
+
+      alias_method(:is_an?, :is_a?)
+      alias_method(:an?, :is_an?)
     end
   end
 
-  # Public: aliases for is_an?/is_a? methods
+  # Public: aliases (is_an?/an?) for is_a? method
   alias is_an? is_a?
   alias an? is_an?
 
-  # Hook to be called when British module being included
+  # Hook to be called when British module being included itself
   # Add method_missing method with all the British 'magic' behaviour
   # Extends a class to make it British
   #
@@ -136,9 +163,18 @@ module British
     host_class.extend ClassMethods
     host_class.class_overwrite_method_missing
 
-    host_class.instance_eval do
-      def method_added(name)
-        class_overwrite_method_missing if name == :method_missing
+    # Inject our own method_added hook to catch it when
+    # `method_missing` is added
+    if host_class.private_methods(true).include?(:method_added)
+      host_class.instance_eval do
+        def british_method_added(name)
+          original_method_added(name)
+          class_overwrite_method_missing if name == :method_missing
+        end
+
+        # do not mess with others :method_added
+        alias original_method_added method_added
+        alias method_added british_method_added
       end
     end
   end
@@ -163,9 +199,18 @@ module British
     host_object.extend ClassMethods
     host_object.object_overwrite_method_missing
 
-    host_object.instance_eval do
-      def singleton_method_added(name)
-        object_overwrite_method_missing if name == :method_missing
+    # Inject our own singleton_method_added hook to catch it when
+    # `method_missing` is added
+    if host_object.private_methods(true).include?(:singleton_method_added)
+      host_object.instance_eval do
+        def british_singleton_method_added(name)
+          original_singleton_method_added(name)
+          object_overwrite_method_missing if name == :method_missing
+        end
+
+        # do not mess with others :singleton_method_added
+        alias original_singleton_method_added singleton_method_added
+        alias singleton_method_added british_singleton_method_added
       end
     end
   end
@@ -174,18 +219,22 @@ module British
   # Defines an?, is_an?, method_missing
   module ClassMethods
     # Public: method to overwrite original method_missing with a magic one:
-    # this method_missing tries to translate British methods to American
-    # ones before throwing NoMethodError if neither method was found. Works
-    # on a class level.
+    # this method_missing tries to translate British methods to American ones
+    # (or vice versa) before throwing NoMethodError if neither method was found.
+    # Works on a class level.
     #
     #   name - original method name
     #   *args - original method args
     #
     # Example:
     #
-    #   # with any British object
+    #   # with any American object
     #   british_object.colour    # will be translated into color
     #   british_object.magnetise # will be translated into magnetize
+    #
+    #   # with any British object
+    #   british_object.color     # will be translated into colour
+    #   british_object.magnetize # will be translated into magnetise
     #
     #   # all method endings are allowed
     #   british_object.surprize!
@@ -202,10 +251,16 @@ module British
       class_eval do
         unless method_defined?(:british_method_missing)
           define_method(:british_method_missing) do |name, *args|
-
-            # do British magic
-            americanised_name = name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
-            return send(americanised_name, *args) if respond_to?(americanised_name)
+            # When in our own British class
+            if self.class.include?(British::Initialisable)
+              # do American magic
+              britanised_name = name.to_s.gsub(AMERICAN_ENDING_PATTERN, ENDINGS.invert)
+              return send(britanised_name, *args) if respond_to?(britanised_name)
+            else
+              # do British magic
+              americanised_name = name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
+              return send(americanised_name, *args) if respond_to?(americanised_name)
+            end
 
             # call original method_missing (avoid double original method calls)
             return original_method_missing(name, *args) if caller[0] !~ /method_missing/ && defined?(:original_method_missing)
@@ -224,18 +279,22 @@ module British
     end
 
     # Public: method to overwrite original method_missing with a magic one:
-    # this method_missing tries to translate British methods to American
-    # ones before throwing NoMethodError if neither method was found. Works
-    # on an instance level.
+    # this method_missing tries to translate British methods to American ones
+    # (or vice versa) before throwing NoMethodError if neither method was found.
+    # Works on an instance level.
     #
     #   name - original method name
     #   *args - original method args
     #
     # Example:
     #
-    #   # with any British object
+    #   # with any American object
     #   british_object.colour    # will be translated into color
     #   british_object.magnetise # will be translated into magnetize
+    #
+    #   # with any British object
+    #   british_object.color     # will be translated into colour
+    #   british_object.magnetize # will be translated into magnetise
     #
     #   # all method endings are allowed
     #   british_object.surprize!
@@ -252,7 +311,6 @@ module British
       instance_eval do
         unless respond_to?(:british_method_missing)
           def british_method_missing(name, *args)
-            $stdout.flush
             # do British magic
             americanised_name = name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
             return send(americanised_name, *args) if respond_to?(americanised_name)

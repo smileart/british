@@ -32,29 +32,35 @@ A tiny module which is supposed to help Brits to use Ruby with more comfort.
 gem install british
 ```
 
+##Usage
+In a nutshell: if you write your own class using British English methods and attributes: just `include British::Initialisable` and it will be possible to use `initialise` in your class + others will be able to call American methods on your class instances (without bothering you about aliases).
+
+If you want to call British methods and attributes on others classes, just `include British` there: by monkey-patching or in source code (if possible) or by calling `ThirdPartyClass.include(British)`, and Bob's your uncle – use British methods on them.
+
+If you are author of a class written in American Englsih, you may want to `include British` into your class to allow your target users to call either American or British methods.
+
 ##Examples
 
 ```ruby
-# Create classes with `initialise` constructor (British::Initialisable)
-# And magic British methods and attributes (British)
-class BritishObject < BlackBoxObject
-  require 'british'
+# Create classes with `initialise` constructor
+# And your own British methods and attributes
+require 'british'
 
-  # use within your objects only *1 …
-  include British
+class BritishObject < BlackBoxObject
+  # use British::Initialisable within your classes only *1 …
   include British::Initialisable
 
-  attr_reader :color
+  attr_reader :colour
 
   # works exactly like an initialize (including `super` usage)
   def initialise(test)
     @test = test
-    @color = 'red'
+    @colour = 'red'
 
     super('black', 'box', 'arguments')
   end
 
-  def magnetize(test)
+  def magnetise(test)
     @test
   end
 end
@@ -62,19 +68,20 @@ end
 british_object = BritishObject.new('Hello UK!')
 british_object.test # => 'Hello UK!'
 
-# Use British endings with any method or attribute
+# Use American or British endings with any method or attribute
+british_object.color     # => "red"
 british_object.colour    # => "red"
+
+british_object.magnetize # => "Hello UK!"
 british_object.magnetise # => "Hello UK!"
 
 # *1 … patch third party or all the system Objects
+# (wouldn't really recommend to do the last one)
 String.include(British)
 'cheers!'.capitalise # => "Cheers!"
 
 require 'active_support/inflector'
 include British
-
-# Use is_an? with classes like an Array!
-[].is_an? Array # => true
 
 'cheers!'.capitalise # => "Cheers!"
 'oi_ya_bloody_wanker'.camelise # => "OiYaBloodyWanker"
@@ -88,6 +95,10 @@ british = refugee.extend(British)
 
 not_british.colour # undefined method `colour'
 british.colour # works well
+
+# Use is_an?/an? with classes like an Array!
+[].is_an? Array # => true
+[].an? Array    # => true
 ```
 
 ##Docs
