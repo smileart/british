@@ -1,0 +1,54 @@
+======================== British 0.3.0 =========================
+
+Warming up --------------------------------------
+          capitalize   130.919k i/100ms
+          capitalise    16.749k i/100ms
+Calculating -------------------------------------
+          capitalize      4.016M (±18.8%) i/s -     19.114M in   5.029311s
+          capitalise    228.117k (±17.3%) i/s -      1.089M in   5.039922s
+
+Comparison:
+          capitalize:  4016423.7 i/s
+          capitalise:   228116.7 i/s - 17.61x  slower
+
+Warming up --------------------------------------
+     American direct   220.851k i/100ms
+       British magic    12.430k i/100ms
+       Migrant magic    22.797k i/100ms
+Calculating -------------------------------------
+     American direct      9.501M (±17.5%) i/s -     45.274M in   5.010340s
+       British magic    135.911k (±12.2%) i/s -    671.220k in   5.029848s
+       Migrant magic    235.376k (±16.3%) i/s -      1.163M in   5.099927s
+
+Comparison:
+     American direct:  9500896.8 i/s
+       Migrant magic:   235376.3 i/s - 40.36x  slower
+       British magic:   135910.8 i/s - 69.91x  slower
+
+
+======================== British 0.4.0 =========================
+
+Warming up --------------------------------------
+          capitalize   186.438k i/100ms
+          capitalise    28.910k i/100ms
+Calculating -------------------------------------
+          capitalize      4.748M (± 9.8%) i/s -     23.491M in   5.014103s
+          capitalise    342.452k (± 8.6%) i/s -      1.706M in   5.027939s
+
+Comparison:
+          capitalize:  4748139.6 i/s
+          capitalise:   342451.8 i/s - 13.87x  slower
+
+Warming up --------------------------------------
+     American direct   242.327k i/100ms
+       British magic    33.085k i/100ms
+       Migrant magic    24.850k i/100ms
+Calculating -------------------------------------
+     American direct      7.907M (±31.6%) i/s -     32.714M in   5.053524s
+       British magic    360.833k (±19.6%) i/s -      1.687M in   5.032477s
+       Migrant magic    346.882k (±17.1%) i/s -      1.640M in   5.007161s
+
+Comparison:
+     American direct:  7906728.8 i/s
+       British magic:   360833.2 i/s - 21.91x  slower
+       Migrant magic:   346881.9 i/s - 22.79x  slower

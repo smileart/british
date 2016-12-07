@@ -13,9 +13,12 @@ group :dev do
 end
 
 group :test do
+  gem 'm'
   gem 'reek'
   gem 'rake'
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'simplecov', '>= 0'
+  gem 'benchmark-ips'
+  gem 'ruby-prof'
 end
