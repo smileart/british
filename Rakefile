@@ -15,7 +15,7 @@ require 'rake'
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'test' << 'lib'
-  test.pattern = 'test/*.rb'
+  test.pattern = 'test/*_spec.rb'
   test.verbose = true
 end
 

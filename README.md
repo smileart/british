@@ -9,21 +9,21 @@ British
 
 A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
-**WARNING**: This gem was created just for the purpose of an experiment. Use it in your production code at your own risk.
+**WARNING**: This gem was created just for the purpose of an experiment and fun. Use it in your code at your own risk!
 
-![](/assets/img/british.gif "WHY?!")
+!["WHY?!"](./assets/img/british.gif "WHY?!")
 
 ##Why
 
-[<img src="/assets/img/screen_1.png" alt="screen_1" width="400px;">](http://stackoverflow.com/a/17968545 "Screen 1")
+[<img src="./assets/img/screen_1.png" alt="screen_1" width="400px;">](http://stackoverflow.com/a/17968545 "Screen 1")
 
-[<img src="/assets/img/screen_2.png" alt="screen_2" width="400px;">](http://stackoverflow.com/a/27485116 "Screen 2")
+[<img src="./assets/img/screen_2.png" alt="screen_2" width="400px;">](http://stackoverflow.com/a/27485116 "Screen 2")
 
-[<img src="/assets/img/screen_3.png" alt="screen_3" width="400px;">](http://stackoverflow.com/a/7320593 "Screen 3")
+[<img src="./assets/img/screen_3.png" alt="screen_3" width="400px;">](http://stackoverflow.com/a/7320593 "Screen 3")
 
-[<img src="/assets/img/screen_4.png" alt="screen_4" width="400px;">](http://www.rubydoc.info/gems/twitter#Remove_British_English_aliases "Screen 4")
+[<img src="./assets/img/screen_4.png" alt="screen_4" width="400px;">](http://www.rubydoc.info/gems/twitter#Remove_British_English_aliases "Screen 4")
 
-[<img src="/assets/img/screen_5.png" alt="screen_5" width="400px;">](http://blog.codinghorror.com/the-ugly-american-programmer/ "The Ugly American Programmer")
+[<img src="./assets/img/screen_5.png" alt="screen_5" width="400px;">](http://blog.codinghorror.com/the-ugly-american-programmer/ "The Ugly American Programmer")
 
 
 ##Installation

@@ -79,11 +79,26 @@ module British
     'ogue'    => 'og'
   }.freeze
 
+  # Public: Hash of American ↔ British words endings
+  INVERTED_ENDINGS = {
+    # Latin-derived spellings
+    'or'    => 'our',
+    'er'    => 're',
+    'se'    => 'ce',
+    'ction' => 'xion',
+
+    # Greek-derived spellings
+    'ize'     => 'ise',
+    'ization' => 'isation',
+    'yze'     => 'yse',
+    'og'      => 'ogue'
+  }.freeze
+
   # Public: Regexp pattern to search/replace British words endings
-  BRITISH_ENDING_PATTERN  = /#{Regexp.union(ENDINGS.keys)}(?=_|-|\?|\!|=|$)/
+  BRITISH_ENDING_PATTERN  = /#{Regexp.union(ENDINGS.keys)}(?=_|\?|\!|=|$)/
 
   # Public: Regexp pattern to search/replace American words endings
-  AMERICAN_ENDING_PATTERN = /#{Regexp.union(ENDINGS.values)}(?=_|-|\?|\!|=|$)/
+  AMERICAN_ENDING_PATTERN = /#{Regexp.union(ENDINGS.values)}(?=_|\?|\!|=|$)/
 
   # Public: Submodule to be included in your own classes to use `initialise`
   # and allow American methods to be called from outside
@@ -163,19 +178,19 @@ module British
     host_class.extend ClassMethods
     host_class.class_overwrite_method_missing
 
+    return unless host_class.private_methods(true).include?(:method_added)
+
     # Inject our own method_added hook to catch it when
     # `method_missing` is added
-    if host_class.private_methods(true).include?(:method_added)
-      host_class.instance_eval do
-        def british_method_added(name)
-          original_method_added(name)
-          class_overwrite_method_missing if name == :method_missing
-        end
-
-        # do not mess with others :method_added
-        alias original_method_added method_added
-        alias method_added british_method_added
+    host_class.instance_eval do
+      def british_method_added(name)
+        original_method_added(name)
+        class_overwrite_method_missing if name == :method_missing
       end
+
+      # do not mess with others :method_added
+      alias original_method_added method_added
+      alias method_added british_method_added
     end
   end
 
@@ -199,19 +214,19 @@ module British
     host_object.extend ClassMethods
     host_object.object_overwrite_method_missing
 
+    return unless host_object.private_methods(true).include?(:singleton_method_added)
+
     # Inject our own singleton_method_added hook to catch it when
     # `method_missing` is added
-    if host_object.private_methods(true).include?(:singleton_method_added)
-      host_object.instance_eval do
-        def british_singleton_method_added(name)
-          original_singleton_method_added(name)
-          object_overwrite_method_missing if name == :method_missing
-        end
-
-        # do not mess with others :singleton_method_added
-        alias original_singleton_method_added singleton_method_added
-        alias singleton_method_added british_singleton_method_added
+    host_object.instance_eval do
+      def british_singleton_method_added(name)
+        original_singleton_method_added(name)
+        object_overwrite_method_missing if name == :method_missing
       end
+
+      # do not mess with others :singleton_method_added
+      alias original_singleton_method_added singleton_method_added
+      alias singleton_method_added british_singleton_method_added
     end
   end
 
@@ -251,14 +266,30 @@ module British
       class_eval do
         unless method_defined?(:british_method_missing)
           define_method(:british_method_missing) do |name, *args|
+            binded_class = self.class
+
             # When in our own British class
-            if self.class.include?(British::Initialisable)
+            if binded_class.include?(British::Initialisable)
+              name_str = name.to_s
+
               # do American magic
-              britanised_name = name.to_s.gsub(AMERICAN_ENDING_PATTERN, ENDINGS.invert)
+              britanised_name = if name_str =~ /_/
+                                  name_str.gsub(AMERICAN_ENDING_PATTERN, INVERTED_ENDINGS)
+                                else
+                                  name_str.sub(AMERICAN_ENDING_PATTERN, INVERTED_ENDINGS)
+                                end
+
               return send(britanised_name, *args) if respond_to?(britanised_name)
             else
+              name_str = name.to_s
+
               # do British magic
-              americanised_name = name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
+              americanised_name = if name_str =~ /_/
+                                    name_str.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
+                                  else
+                                    name_str.sub(BRITISH_ENDING_PATTERN, ENDINGS)
+                                  end
+
               return send(americanised_name, *args) if respond_to?(americanised_name)
             end
 
@@ -266,7 +297,7 @@ module British
             return original_method_missing(name, *args) if caller[0] !~ /method_missing/ && defined?(:original_method_missing)
 
             # call original parent's method_missing
-            method = self.class.superclass.instance_method(:original_method_missing)
+            method = binded_class.superclass.instance_method(:original_method_missing)
             return method.bind(self).call(name, *args) if method
           end
         end
@@ -312,7 +343,12 @@ module British
         unless respond_to?(:british_method_missing)
           def british_method_missing(name, *args)
             # do British magic
-            americanised_name = name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
+            americanised_name = if name.to_s =~ /_/
+                                  name.to_s.gsub(BRITISH_ENDING_PATTERN, ENDINGS)
+                                else
+                                  name.to_s.sub(BRITISH_ENDING_PATTERN, ENDINGS)
+                                end
+
             return send(americanised_name, *args) if respond_to?(americanised_name)
 
             # call original method_missing (avoid double original method calls)
