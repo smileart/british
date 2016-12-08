@@ -9,7 +9,7 @@ British
 
 A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
-**WARNING**: This gem was created just for the purpose of an experiment and fun. Use it in your code at your own risk!
+**WARNING**: This gem was created just for the purpose of an experiment and fun. Use it in your code at your own [risk](https://github.com/smileart/british/blob/master/test/perfomance/history.txt)!
 
 !["WHY?!"](./assets/img/british.gif "WHY?!")
 
@@ -103,7 +103,7 @@ british.colour # works well
 
 ##Docs
 
-[RubyDoc.info](http://www.rubydoc.info/gems/british/0.1.0/British "RubyDoc")
+[RubyDoc.info](http://www.rubydoc.info/gems/british/0.4.0/British "RubyDoc")
 
 ##Development
 ```bash
