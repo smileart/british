@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/*.rb']
   s.homepage    = 'https://github.com/smileart/british'
 
-  s.add_development_dependency 'bundler',            '~> 1.10'
+  s.add_development_dependency 'bundler',            '~> 1.14'
   s.add_development_dependency 'minitest',           '~> 5.0'
   s.add_development_dependency 'minitest-reporters', '~> 1.1'
   s.add_development_dependency 'rake',               '~> 12.0'
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'coveralls',          '~> 0.8'
   s.add_development_dependency 'letters',            '~> 0.4'
   s.add_development_dependency 'yard',               '~> 0.8'
-  s.add_development_dependency 'rdoc',               '~> 5.0'
+  s.add_development_dependency 'rdoc',               '~> 5.1'
   s.add_development_dependency 'gitignore',          '~> 0.1'
   s.add_development_dependency 'rubocop',            '~> 0.47'
   s.add_development_dependency 'inch',               '~> 0.7'
