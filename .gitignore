@@ -50,3 +50,6 @@ Gemfile.lock
 save-commands.json
 tags
 .tags*
+
+### VSCode ###
+.vscode
