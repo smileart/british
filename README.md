@@ -13,7 +13,7 @@ A tiny module which is supposed to help Brits to use Ruby with more comfort.
 
 !["WHY?!"](./assets/img/british.gif "WHY?!")
 
-##Why
+## Why
 
 [<img src="./assets/img/screen_1.png" alt="screen_1" width="400px;">](http://stackoverflow.com/a/17968545 "Screen 1")
 
@@ -26,13 +26,13 @@ A tiny module which is supposed to help Brits to use Ruby with more comfort.
 [<img src="./assets/img/screen_5.png" alt="screen_5" width="400px;">](http://blog.codinghorror.com/the-ugly-american-programmer/ "The Ugly American Programmer")
 
 
-##Installation
+## Installation
 
 ```bash
 gem install british
 ```
 
-##Usage
+## Usage
 In a nutshell: if you write your own class using British English methods and attributes: just `include British::Initialisable` and it will be possible to use `initialise` in your class + others will be able to call American methods on your class instances (without bothering you about aliases).
 
 If you want to call British methods and attributes on others classes, just `include British` there: by monkey-patching or in source code (if possible) or by calling `ThirdPartyClass.include(British)`, and Bob's your uncle – use British methods on them.
@@ -105,7 +105,7 @@ british.colour # works well
 
 [RubyDoc.info](http://www.rubydoc.info/gems/british/0.4.0/British "RubyDoc")
 
-##Development
+## Development
 ```bash
 yard --plugin tomdoc      # generate documentation
 open doc/index.html       # open documentation in a browser
@@ -123,11 +123,11 @@ inch                      # run inches documentation analysis
 
 [Semantic Commit](http://seesparkbox.com/foundry/semantic_commit_messages "Semantic Commit")
 
-##Known Issues
+## Known Issues
 
 * Any stack trace of `undefined method` includes British method_missing and then the original error-line
 
-##References
+## References
 
 * [American and British English spelling differences](https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences)
 * [Oxford Dictionaries -ize, -ise, or -yse?](https://youtu.be/-bWSYBUaeYM)
