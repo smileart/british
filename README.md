@@ -33,11 +33,11 @@ gem install british
 ```
 
 ## Usage
-In a nutshell: if you write your own class using British English methods and attributes: just `include British::Initialisable` and it will be possible to use `initialise` in your class + others will be able to call American methods on your class instances (without bothering you about aliases).
+In a nutshell: if you write your own class using British English methods and attributes: just `include British::Initialisable` and it will be possible to use `initialise` in your class + other developers will be able to call American methods on your class instances (without bothering you about the aliases).
 
-If you want to call British methods and attributes on others classes, just `include British` there: by monkey-patching or in source code (if possible) or by calling `ThirdPartyClass.include(British)`, and Bob's your uncle – use British methods on them.
+If you want to call British methods and attributes on other developer's classes, just `include British` there: by monkey-patching or in source code (if possible) or by calling `ThirdPartyClass.include(British)`, and Bob's your uncle – use British methods on them.
 
-If you are author of a class written in American Englsih, you may want to `include British` into your class to allow your target users to call either American or British methods.
+If you are an author of a class written in American Englsih, you may want to `include British` into your class to allow your library/class users to call either American or British methods.
 
 ##Examples
 
